@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <div className="padding-20">
-      <p>Welcome to Playground!</p>
+      <h1>Welcome to Playground!</h1>
     </div>
   );
 }
