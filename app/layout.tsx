@@ -17,6 +17,7 @@ export default function RootLayout({
       <body>
         <div className="padding-20">
           <Link href="/">Home</Link>
+          <Link href="/coin">Coin</Link>
         </div>
         {children}
       </body>

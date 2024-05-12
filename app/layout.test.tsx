@@ -15,8 +15,9 @@ describe("RootLayout", () => {
     expect(getByText("Child Component")).toBeInTheDocument();
   });
 
-  test("renders Home link", () => {
+  test("renders navbar links", () => {
     const { getByText } = render(<RootLayout>{}</RootLayout>);
     expect(getByText("Home")).toHaveAttribute("href", "/");
+    expect(getByText("Coin")).toHaveAttribute("href", "/coin");
   });
 });
