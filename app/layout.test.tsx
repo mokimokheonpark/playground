@@ -14,4 +14,9 @@ describe("RootLayout", () => {
     );
     expect(getByText("Child Component")).toBeInTheDocument();
   });
+
+  test("renders Home link", () => {
+    const { getByText } = render(<RootLayout>{}</RootLayout>);
+    expect(getByText("Home")).toHaveAttribute("href", "/");
+  });
 });
