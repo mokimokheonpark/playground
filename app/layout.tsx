@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="padding-20">
+        <div className="navbar pd-20">
           <Link href="/">Home</Link>
           <Link href="/coin">Coin</Link>
         </div>

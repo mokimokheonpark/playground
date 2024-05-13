@@ -3,6 +3,10 @@ a {
   text-decoration: none;
 }
 
-.padding-20 {
+.navbar a {
+  margin-right: 20px;
+}
+
+.pd-20 {
   padding: 20px;
 }
