@@ -8,9 +8,9 @@ describe("Coin Page", () => {
     expect(headerElement).toBeInTheDocument();
   });
 
-  test("renders Coin component", () => {
+  test("renders Coin Component", () => {
     const { getByTestId } = render(<CoinPage />);
-    const coinComponent = getByTestId("Coin-component");
+    const coinComponent = getByTestId("Coin-Component");
     expect(coinComponent).toBeInTheDocument();
   });
 });
