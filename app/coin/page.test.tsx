@@ -1,10 +1,16 @@
 import { render } from "@testing-library/react";
-import Coin from "./page";
+import CoinPage from "./page";
 
-describe("Home", () => {
-  test("renders welcome message", () => {
-    const { getByText } = render(<Coin />);
-    const titleElement = getByText("Coin Flipping");
-    expect(titleElement).toBeInTheDocument();
+describe("Coin Page", () => {
+  test("renders header", () => {
+    const { getByText } = render(<CoinPage />);
+    const headerElement = getByText("Coin Flipping");
+    expect(headerElement).toBeInTheDocument();
+  });
+
+  test("renders Coin component", () => {
+    const { getByTestId } = render(<CoinPage />);
+    const coinComponent = getByTestId("Coin-component");
+    expect(coinComponent).toBeInTheDocument();
   });
 });
