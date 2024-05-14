@@ -11,6 +11,10 @@ a {
   padding: 20px;
 }
 
+.mb--10 {
+  margin-bottom: -10px;
+}
+
 .coin-button-container {
   display: flex;
   margin-top: 20px;
@@ -21,4 +25,12 @@ a {
   flex: 1;
   max-width: 50px;
   margin-right: 10px;
+}
+
+.red {
+  color: red;
+}
+
+.blue {
+  color: blue;
 }

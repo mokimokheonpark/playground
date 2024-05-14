@@ -60,4 +60,32 @@ describe("Coin Component", () => {
     fireEvent.click(headButton);
     expect(getByText("Points: 10000")).toBeInTheDocument();
   });
+
+  test("displays correct message when player wins/loses with Head", () => {
+    const { getByRole, getByTestId, getByText } = render(<Coin />);
+    const headButton = getByRole("button", { name: "Head" });
+    fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "300" } });
+    fireEvent.click(headButton);
+    const choice = getByTestId("Choice");
+    const coinResult = getByTestId("Coin-Result");
+    if (choice.textContent === coinResult.textContent) {
+      expect(getByText("You earned 291 points!")).toBeInTheDocument();
+    } else {
+      expect(getByText("You lost 300 points...")).toBeInTheDocument();
+    }
+  });
+
+  test("displays correct message when player wins/loses with Tail", () => {
+    const { getByRole, getByTestId, getByText } = render(<Coin />);
+    const tailButton = getByRole("button", { name: "Tail" });
+    fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "500" } });
+    fireEvent.click(tailButton);
+    const choice = getByTestId("Choice");
+    const coinResult = getByTestId("Coin-Result");
+    if (choice.textContent === coinResult.textContent) {
+      expect(getByText("You earned 485 points!")).toBeInTheDocument();
+    } else {
+      expect(getByText("You lost 500 points...")).toBeInTheDocument();
+    }
+  });
 });
