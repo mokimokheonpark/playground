@@ -10,3 +10,15 @@ a {
 .pd-20 {
   padding: 20px;
 }
+
+.coin-button-container {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.coin-button-container button {
+  flex: 1;
+  max-width: 50px;
+  margin-right: 10px;
+}

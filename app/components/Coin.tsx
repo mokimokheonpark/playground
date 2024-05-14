@@ -27,6 +27,7 @@ export default function Coin() {
   return (
     <div data-testid={"Coin-Component"}>
       <h4 data-testid={"Points"}>Points: {points}</h4>
+
       <input
         data-testid={"Bet-Amount"}
         className="mb-20"
@@ -40,26 +41,29 @@ export default function Coin() {
           setBetAmountInput(value);
         }}
       />
-      <button
-        onClick={handleChooseHead}
-        disabled={
-          betAmountInput === 0 ||
-          betAmountInput % 100 !== 0 ||
-          betAmountInput > points
-        }
-      >
-        Head
-      </button>
-      <button
-        onClick={handleChooseTail}
-        disabled={
-          betAmountInput === 0 ||
-          betAmountInput % 100 !== 0 ||
-          betAmountInput > points
-        }
-      >
-        Tail
-      </button>
+
+      <div className="coin-button-container">
+        <button
+          onClick={handleChooseHead}
+          disabled={
+            betAmountInput === 0 ||
+            betAmountInput % 100 !== 0 ||
+            betAmountInput > points
+          }
+        >
+          Head
+        </button>
+        <button
+          onClick={handleChooseTail}
+          disabled={
+            betAmountInput === 0 ||
+            betAmountInput % 100 !== 0 ||
+            betAmountInput > points
+          }
+        >
+          Tail
+        </button>
+      </div>
     </div>
   );
 }
