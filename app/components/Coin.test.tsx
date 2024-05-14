@@ -61,28 +61,42 @@ describe("Coin Component", () => {
     expect(getByText("Points: 10000")).toBeInTheDocument();
   });
 
-  test("displays correct message when player wins/loses with Head", () => {
+  test("displays correct player-choice when choosing Head", () => {
+    const { getByRole, getByTestId } = render(<Coin />);
+    const headButton = getByRole("button", { name: "Head" });
+    fireEvent.click(headButton);
+    const choice = getByTestId("Choice");
+    expect(choice).toHaveTextContent("Head");
+  });
+
+  test("displays correct player-choice when choosing Tail", () => {
+    const { getByRole, getByTestId } = render(<Coin />);
+    const tailButton = getByRole("button", { name: "Tail" });
+    fireEvent.click(tailButton);
+    const choice = getByTestId("Choice");
+    expect(choice).toHaveTextContent("Tail");
+  });
+
+  test("displays correct game-result-message when player wins/loses with Head", () => {
     const { getByRole, getByTestId, getByText } = render(<Coin />);
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "300" } });
     fireEvent.click(headButton);
-    const choice = getByTestId("Choice");
     const coinResult = getByTestId("Coin-Result");
-    if (choice.textContent === coinResult.textContent) {
+    if (coinResult.textContent === "Head") {
       expect(getByText("You earned 291 points!")).toBeInTheDocument();
     } else {
       expect(getByText("You lost 300 points...")).toBeInTheDocument();
     }
   });
 
-  test("displays correct message when player wins/loses with Tail", () => {
+  test("displays correct game-result-message when player wins/loses with Tail", () => {
     const { getByRole, getByTestId, getByText } = render(<Coin />);
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "500" } });
     fireEvent.click(tailButton);
-    const choice = getByTestId("Choice");
     const coinResult = getByTestId("Coin-Result");
-    if (choice.textContent === coinResult.textContent) {
+    if (coinResult.textContent === "Tail") {
       expect(getByText("You earned 485 points!")).toBeInTheDocument();
     } else {
       expect(getByText("You lost 500 points...")).toBeInTheDocument();
