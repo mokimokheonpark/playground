@@ -10,14 +10,18 @@ export default function Coin() {
   const [betAmount, setBetAmount] = useState<number>(0);
   const [choice, setChoice] = useState<HeadTail>("Head");
   const [coinResult, setCoinResult] = useState<HeadTail>("Head");
+  const [playCount, setPlayCount] = useState<number>(0);
+  const [winCount, setWinCount] = useState<number>(0);
 
   const handleChooseHead = (): void => {
     const result: number = Math.floor(Math.random() * 2) + 1;
     setBetAmount(betAmountInput);
     setChoice("Head");
+    setPlayCount((prev) => prev + 1);
     if (result === 1) {
       setCoinResult("Head");
       setPoints((prev) => prev + betAmountInput * 0.97);
+      setWinCount((prev) => prev + 1);
     } else {
       setCoinResult("Tail");
       setPoints((prev) => prev - betAmountInput);
@@ -28,9 +32,11 @@ export default function Coin() {
     const result: number = Math.floor(Math.random() * 2) + 1;
     setBetAmount(betAmountInput);
     setChoice("Tail");
+    setPlayCount((prev) => prev + 1);
     if (result === 2) {
       setCoinResult("Tail");
       setPoints((prev) => prev + betAmountInput * 0.97);
+      setWinCount((prev) => prev + 1);
     } else {
       setCoinResult("Head");
       setPoints((prev) => prev - betAmountInput);
@@ -107,6 +113,21 @@ export default function Coin() {
           ) : (
             <p>You lost {betAmount} points...</p>
           )}
+
+          <hr />
+
+          <p data-testid={"Play-Count"} className="mb--10">
+            Plays: {playCount}
+          </p>
+
+          <p data-testid={"Win-Count"} className="mb--10">
+            Wins: {winCount} ({((winCount / playCount) * 100).toFixed(2)}%)
+          </p>
+
+          <p data-testid={"Loss-Count"}>
+            Losses: {playCount - winCount} (
+            {(((playCount - winCount) / playCount) * 100).toFixed(2)}%)
+          </p>
         </div>
       )}
     </div>

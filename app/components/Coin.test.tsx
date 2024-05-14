@@ -102,4 +102,44 @@ describe("Coin Component", () => {
       expect(getByText("You lost 500 points...")).toBeInTheDocument();
     }
   });
+
+  test("displays the number of total played games correctly", () => {
+    const { getByRole, getByTestId } = render(<Coin />);
+    const headButton = getByRole("button", { name: "Head" });
+    const tailButton = getByRole("button", { name: "Tail" });
+    for (let i = 0; i < 10; i++) {
+      fireEvent.click(headButton);
+      fireEvent.click(tailButton);
+    }
+    const playCount = getByTestId("Play-Count");
+    let playCountNumber;
+    if (playCount.textContent) {
+      playCountNumber = parseInt(playCount.textContent.split(" ")[1]);
+    }
+    expect(playCountNumber).toEqual(20);
+  });
+
+  test("displays the number of total won/lost games correctly", () => {
+    const { getByRole, getByTestId } = render(<Coin />);
+    const headButton = getByRole("button", { name: "Head" });
+    fireEvent.click(headButton);
+    const winCount = getByTestId("Win-Count");
+    let winCountNumber;
+    if (winCount.textContent) {
+      winCountNumber = parseInt(winCount.textContent.split(" ")[1]);
+    }
+    const lossCount = getByTestId("Loss-Count");
+    let lossCountNumber;
+    if (lossCount.textContent) {
+      lossCountNumber = parseInt(lossCount.textContent.split(" ")[1]);
+    }
+    const coinResult = getByTestId("Coin-Result");
+    if (coinResult.textContent === "Head") {
+      expect(winCountNumber).toEqual(1);
+      expect(lossCountNumber).toEqual(0);
+    } else {
+      expect(winCountNumber).toEqual(0);
+      expect(lossCountNumber).toEqual(1);
+    }
+  });
 });
