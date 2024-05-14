@@ -4,6 +4,8 @@ import { useState } from "react";
 
 export default function Coin() {
   type HeadTail = "Head" | "Tail";
+  type HT = "H" | "T";
+  type HTArray = HT[];
 
   const [points, setPoints] = useState<number>(10000);
   const [betAmountInput, setBetAmountInput] = useState<number>(100);
@@ -12,6 +14,7 @@ export default function Coin() {
   const [coinResult, setCoinResult] = useState<HeadTail>("Head");
   const [playCount, setPlayCount] = useState<number>(0);
   const [winCount, setWinCount] = useState<number>(0);
+  const [pastCoinResults, setPastCoinResults] = useState<HTArray>([]);
 
   const handleChooseHead = (): void => {
     const result: number = Math.floor(Math.random() * 2) + 1;
@@ -22,9 +25,11 @@ export default function Coin() {
       setCoinResult("Head");
       setPoints((prev) => prev + betAmountInput * 0.97);
       setWinCount((prev) => prev + 1);
+      setPastCoinResults((prev) => [...prev, "H"]);
     } else {
       setCoinResult("Tail");
       setPoints((prev) => prev - betAmountInput);
+      setPastCoinResults((prev) => [...prev, "T"]);
     }
   };
 
@@ -37,9 +42,11 @@ export default function Coin() {
       setCoinResult("Tail");
       setPoints((prev) => prev + betAmountInput * 0.97);
       setWinCount((prev) => prev + 1);
+      setPastCoinResults((prev) => [...prev, "T"]);
     } else {
       setCoinResult("Head");
       setPoints((prev) => prev - betAmountInput);
+      setPastCoinResults((prev) => [...prev, "H"]);
     }
   };
 
@@ -127,6 +134,28 @@ export default function Coin() {
           <p data-testid={"Loss-Count"}>
             Losses: {playCount - winCount} (
             {(((playCount - winCount) / playCount) * 100).toFixed(2)}%)
+          </p>
+
+          <hr />
+
+          <p data-testid={"Head-Count"} className="mb--10">
+            Heads: {pastCoinResults.filter((result) => result === "H").length} (
+            {(
+              (pastCoinResults.filter((result) => result === "H").length /
+                pastCoinResults.length) *
+              100
+            ).toFixed(2)}
+            %)
+          </p>
+
+          <p data-testid={"Tail-Count"} className="mb--10">
+            Tails: {pastCoinResults.filter((result) => result === "T").length} (
+            {(
+              (pastCoinResults.filter((result) => result === "T").length /
+                pastCoinResults.length) *
+              100
+            ).toFixed(2)}
+            %)
           </p>
         </div>
       )}

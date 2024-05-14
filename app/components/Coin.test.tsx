@@ -142,4 +142,28 @@ describe("Coin Component", () => {
       expect(lossCountNumber).toEqual(1);
     }
   });
+
+  test("displays the number of total Head/Tail correctly", () => {
+    const { getByRole, getByTestId } = render(<Coin />);
+    const tailButton = getByRole("button", { name: "Tail" });
+    fireEvent.click(tailButton);
+    const headCount = getByTestId("Head-Count");
+    let headCountNumber;
+    if (headCount.textContent) {
+      headCountNumber = parseInt(headCount.textContent.split(" ")[1]);
+    }
+    const tailCount = getByTestId("Tail-Count");
+    let tailCountNumber;
+    if (tailCount.textContent) {
+      tailCountNumber = parseInt(tailCount.textContent.split(" ")[1]);
+    }
+    const coinResult = getByTestId("Coin-Result");
+    if (coinResult.textContent === "Tail") {
+      expect(headCountNumber).toEqual(0);
+      expect(tailCountNumber).toEqual(1);
+    } else {
+      expect(headCountNumber).toEqual(1);
+      expect(tailCountNumber).toEqual(0);
+    }
+  });
 });
