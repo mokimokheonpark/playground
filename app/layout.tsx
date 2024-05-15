@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Playground",
-  description: "full stack web applilcation project",
+  description: "full stack web application project",
 };
 
 export default function RootLayout({

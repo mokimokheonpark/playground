@@ -11,4 +11,10 @@ describe("Dice Page", () => {
     const headerElement = getByText("Dice Rolling");
     expect(headerElement).toBeInTheDocument();
   });
+
+  test("renders Dice Component", () => {
+    const { getByTestId } = render(<DicePage />);
+    const diceComponent = getByTestId("Dice-Component");
+    expect(diceComponent).toBeInTheDocument();
+  });
 });
