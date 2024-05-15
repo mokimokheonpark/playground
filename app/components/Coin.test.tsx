@@ -188,4 +188,69 @@ describe("Coin Component", () => {
       "T T T ",
     ]).toContain(pastCoinResults);
   });
+
+  test("displays longest-consecutive-heads/tails correctly", () => {
+    const { getByRole, getByTestId } = render(<Coin />);
+    const headButton = getByRole("button", { name: "Head" });
+    const tailButton = getByRole("button", { name: "Tail" });
+    for (let i = 0; i < 100; i++) {
+      fireEvent.click(headButton);
+      fireEvent.click(tailButton);
+    }
+    const longestConsecutiveHeadsContainer = getByTestId(
+      "Longest-Consecutive-Heads"
+    );
+    let longestConsecutiveHeads;
+    if (longestConsecutiveHeadsContainer.textContent) {
+      longestConsecutiveHeads = parseInt(
+        longestConsecutiveHeadsContainer.textContent.split(" ")[3]
+      );
+    }
+    const longestConsecutiveTailsContainer = getByTestId(
+      "Longest-Consecutive-Tails"
+    );
+    let longestConsecutiveTails;
+    if (longestConsecutiveTailsContainer.textContent) {
+      longestConsecutiveTails = parseInt(
+        longestConsecutiveTailsContainer.textContent.split(" ")[3]
+      );
+    }
+    const pastCoinResultsContainer = getByTestId("Past-Coin-Results");
+    const pastCoinResults = pastCoinResultsContainer.textContent
+      ?.split(": ")[1]
+      .replace(/\s/g, "");
+    if (pastCoinResults) {
+      let longestConsecutiveHeadsTest = 0;
+      let currentConsecutiveHeadsTest = 0;
+      let longestConsecutiveTailsTest = 0;
+      let currentConsecutiveTailsTest = 0;
+      for (let i = 0; i < pastCoinResults.length; i++) {
+        if (pastCoinResults[i] === "H") {
+          longestConsecutiveTailsTest = Math.max(
+            longestConsecutiveTailsTest,
+            currentConsecutiveTailsTest
+          );
+          currentConsecutiveTailsTest = 0;
+          currentConsecutiveHeadsTest += 1;
+        } else {
+          longestConsecutiveHeadsTest = Math.max(
+            longestConsecutiveHeadsTest,
+            currentConsecutiveHeadsTest
+          );
+          currentConsecutiveHeadsTest = 0;
+          currentConsecutiveTailsTest += 1;
+        }
+      }
+      longestConsecutiveHeadsTest = Math.max(
+        longestConsecutiveHeadsTest,
+        currentConsecutiveHeadsTest
+      );
+      longestConsecutiveTailsTest = Math.max(
+        longestConsecutiveTailsTest,
+        currentConsecutiveTailsTest
+      );
+      expect(longestConsecutiveHeadsTest).toEqual(longestConsecutiveHeads);
+      expect(longestConsecutiveTailsTest).toEqual(longestConsecutiveTails);
+    }
+  });
 });

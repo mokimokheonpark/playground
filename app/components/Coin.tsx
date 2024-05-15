@@ -16,6 +16,21 @@ export default function Coin() {
   const [winCount, setWinCount] = useState<number>(0);
   const [pastCoinResults, setPastCoinResults] = useState<HTArray>([]);
 
+  const getLongestConsecutive = (results: HTArray, target: HT): number => {
+    let longestConsecutive = 0;
+    let currentConsecutive = 0;
+    results.forEach((result) => {
+      if (result === target) {
+        currentConsecutive += 1;
+      } else {
+        longestConsecutive = Math.max(longestConsecutive, currentConsecutive);
+        currentConsecutive = 0;
+      }
+    });
+    longestConsecutive = Math.max(longestConsecutive, currentConsecutive);
+    return longestConsecutive;
+  };
+
   const handleChooseHead = (): void => {
     const result: number = Math.floor(Math.random() * 2) + 1;
     setBetAmount(betAmountInput);
@@ -165,6 +180,16 @@ export default function Coin() {
               100
             ).toFixed(2)}
             %)
+          </p>
+
+          <p data-testid={"Longest-Consecutive-Heads"} className="mb--10">
+            Longest Consecutive Heads:{" "}
+            {getLongestConsecutive(pastCoinResults, "H")}
+          </p>
+
+          <p data-testid={"Longest-Consecutive-Tails"}>
+            Longest Consecutive Tails:{" "}
+            {getLongestConsecutive(pastCoinResults, "T")}
           </p>
         </div>
       )}
