@@ -166,4 +166,26 @@ describe("Coin Component", () => {
       expect(tailCountNumber).toEqual(0);
     }
   });
+
+  test("displays past-coin-results correctly", () => {
+    const { getByRole, getByTestId } = render(<Coin />);
+    const headButton = getByRole("button", { name: "Head" });
+    const tailButton = getByRole("button", { name: "Tail" });
+    fireEvent.click(headButton);
+    fireEvent.click(tailButton);
+    fireEvent.click(headButton);
+    const pastCoinResultsContainer = getByTestId("Past-Coin-Results");
+    const pastCoinResults =
+      pastCoinResultsContainer.textContent?.split(": ")[1];
+    expect([
+      "H H H ",
+      "H H T ",
+      "H T H ",
+      "H T T ",
+      "T H H ",
+      "T H T ",
+      "T T H ",
+      "T T T ",
+    ]).toContain(pastCoinResults);
+  });
 });

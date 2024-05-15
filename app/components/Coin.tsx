@@ -138,6 +138,15 @@ export default function Coin() {
 
           <hr />
 
+          <p data-testid="Past-Coin-Results">
+            Past Results:{" "}
+            {pastCoinResults.map((result, index) => (
+              <span className={result === "H" ? "red" : "blue"} key={index}>
+                {result}{" "}
+              </span>
+            ))}
+          </p>
+
           <p data-testid={"Head-Count"} className="mb--10">
             Heads: {pastCoinResults.filter((result) => result === "H").length} (
             {(
