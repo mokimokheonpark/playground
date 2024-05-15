@@ -18,6 +18,7 @@ export default function RootLayout({
         <div className="navbar pd-20">
           <Link href="/">Home</Link>
           <Link href="/coin">Coin</Link>
+          <Link href="/dice">Dice</Link>
         </div>
         {children}
       </body>
