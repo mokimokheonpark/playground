@@ -11,4 +11,10 @@ describe("Rock-Paper-Scissors Page", () => {
     const headerElement = getByText("Rock Paper Scissors");
     expect(headerElement).toBeInTheDocument();
   });
+
+  test("renders RPS Component", () => {
+    const { getByTestId } = render(<RPSPage />);
+    const diceComponent = getByTestId("RPS-Component");
+    expect(diceComponent).toBeInTheDocument();
+  });
 });
