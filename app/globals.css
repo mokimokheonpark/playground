@@ -15,7 +15,8 @@ a {
   margin-bottom: -10px;
 }
 
-.coin-button-container {
+.coin-button-container,
+.dice-button-container {
   display: flex;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -27,10 +28,32 @@ a {
   margin-right: 10px;
 }
 
+.dice-button-container button {
+  flex: 1;
+  max-width: 30px;
+  margin-right: 10px;
+}
+
 .red {
   color: red;
 }
 
 .blue {
   color: blue;
+}
+
+.orange {
+  color: orange;
+}
+
+.yellow {
+  color: yellow;
+}
+
+.green {
+  color: green;
+}
+
+.purple {
+  color: purple;
 }
