@@ -12,6 +12,14 @@ export default function Dice() {
   const [winCount, setWinCount] = useState<number>(0);
   const [pastDiceResults, setPastDiceResults] = useState<number[]>([]);
 
+  const colorClasses: { [key: number]: string } = {
+    1: "red",
+    2: "orange",
+    3: "yellow",
+    4: "green",
+    5: "blue",
+  };
+
   const handleChooseNumber = (chosenNumber: number): void => {
     setBetAmount(betAmountInput);
     setChoice(chosenNumber);
@@ -66,60 +74,22 @@ export default function Dice() {
 
           <p className="mb--10">
             Your Choice:{" "}
-            {choice === 1 ? (
-              <span data-testid={"Choice"} className="red">
-                {choice}
-              </span>
-            ) : choice === 2 ? (
-              <span data-testid={"Choice"} className="orange">
-                {choice}
-              </span>
-            ) : choice === 3 ? (
-              <span data-testid={"Choice"} className="yello">
-                {choice}
-              </span>
-            ) : choice === 4 ? (
-              <span data-testid={"Choice"} className="green">
-                {choice}
-              </span>
-            ) : choice === 5 ? (
-              <span data-testid={"Choice"} className="blue">
-                {choice}
-              </span>
-            ) : (
-              <span data-testid={"Choice"} className="purple">
-                {choice}
-              </span>
-            )}
+            <span
+              data-testid={"Choice"}
+              className={colorClasses[choice] || "purple"}
+            >
+              {choice}
+            </span>
           </p>
 
           <p className="mb--10">
             Dice Result:{" "}
-            {diceResult === 1 ? (
-              <span data-testid={"Dice-Result"} className="red">
-                {diceResult}
-              </span>
-            ) : diceResult === 2 ? (
-              <span data-testid={"Dice-Result"} className="orange">
-                {diceResult}
-              </span>
-            ) : diceResult === 3 ? (
-              <span data-testid={"Dice-Result"} className="yello">
-                {diceResult}
-              </span>
-            ) : diceResult === 4 ? (
-              <span data-testid={"Dice-Result"} className="green">
-                {diceResult}
-              </span>
-            ) : diceResult === 5 ? (
-              <span data-testid={"Dice-Result"} className="blue">
-                {diceResult}
-              </span>
-            ) : (
-              <span data-testid={"Dice-Result"} className="purple">
-                {diceResult}
-              </span>
-            )}
+            <span
+              data-testid={"Dice-Result"}
+              className={colorClasses[diceResult] || "purple"}
+            >
+              {diceResult}
+            </span>
           </p>
 
           {choice === diceResult ? (
@@ -147,94 +117,25 @@ export default function Dice() {
 
           <p data-testid={"Past-Dice-Results"}>
             Past Results:{" "}
-            {pastDiceResults.map((result, index) =>
-              result === 1 ? (
-                <span className="red" key={index}>
-                  {result}{" "}
-                </span>
-              ) : result === 2 ? (
-                <span className="orange" key={index}>
-                  {result}{" "}
-                </span>
-              ) : result === 3 ? (
-                <span className="yellow" key={index}>
-                  {result}{" "}
-                </span>
-              ) : result === 4 ? (
-                <span className="green" key={index}>
-                  {result}{" "}
-                </span>
-              ) : result === 5 ? (
-                <span className="blue" key={index}>
-                  {result}{" "}
-                </span>
-              ) : (
-                <span className="purple" key={index}>
-                  {result}{" "}
-                </span>
-              )
-            )}
+            {pastDiceResults.map((result, index) => (
+              <span className={colorClasses[result] || "purple"} key={index}>
+                {result}{" "}
+              </span>
+            ))}
           </p>
 
-          <p data-testid={"1-Count"} className="mb--10">
-            1: {pastDiceResults.filter((result) => result === 1).length} (
-            {(
-              (pastDiceResults.filter((result) => result === 1).length /
-                pastDiceResults.length) *
-              100
-            ).toFixed(2)}
-            %)
-          </p>
-
-          <p data-testid={"2-Count"} className="mb--10">
-            2: {pastDiceResults.filter((result) => result === 2).length} (
-            {(
-              (pastDiceResults.filter((result) => result === 2).length /
-                pastDiceResults.length) *
-              100
-            ).toFixed(2)}
-            %)
-          </p>
-
-          <p data-testid={"3-Count"} className="mb--10">
-            3: {pastDiceResults.filter((result) => result === 3).length} (
-            {(
-              (pastDiceResults.filter((result) => result === 3).length /
-                pastDiceResults.length) *
-              100
-            ).toFixed(2)}
-            %)
-          </p>
-
-          <p data-testid={"4-Count"} className="mb--10">
-            4: {pastDiceResults.filter((result) => result === 4).length} (
-            {(
-              (pastDiceResults.filter((result) => result === 4).length /
-                pastDiceResults.length) *
-              100
-            ).toFixed(2)}
-            %)
-          </p>
-
-          <p data-testid={"5-Count"} className="mb--10">
-            5: {pastDiceResults.filter((result) => result === 5).length} (
-            {(
-              (pastDiceResults.filter((result) => result === 5).length /
-                pastDiceResults.length) *
-              100
-            ).toFixed(2)}
-            %)
-          </p>
-
-          <p data-testid={"6-Count"}>
-            6: {pastDiceResults.filter((result) => result === 6).length} (
-            {(
-              (pastDiceResults.filter((result) => result === 6).length /
-                pastDiceResults.length) *
-              100
-            ).toFixed(2)}
-            %)
-          </p>
+          {[1, 2, 3, 4, 5, 6].map((number) => (
+            <p data-testid={`${number}-Count`} className="mb--10" key={number}>
+              {number}:{" "}
+              {pastDiceResults.filter((result) => result === number).length} (
+              {(
+                (pastDiceResults.filter((result) => result === number).length /
+                  pastDiceResults.length) *
+                100
+              ).toFixed(2)}
+              %)
+            </p>
+          ))}
         </div>
       )}
     </div>
