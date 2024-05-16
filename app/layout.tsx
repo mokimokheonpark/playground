@@ -19,6 +19,7 @@ export default function RootLayout({
           <Link href="/">Home</Link>
           <Link href="/coin">Coin</Link>
           <Link href="/dice">Dice</Link>
+          <Link href="/rps">RPS</Link>
         </div>
         {children}
       </body>

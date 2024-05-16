@@ -20,5 +20,6 @@ describe("RootLayout", () => {
     expect(getByText("Home")).toHaveAttribute("href", "/");
     expect(getByText("Coin")).toHaveAttribute("href", "/coin");
     expect(getByText("Dice")).toHaveAttribute("href", "/dice");
+    expect(getByText("RPS")).toHaveAttribute("href", "/rps");
   });
 });
