@@ -114,6 +114,7 @@ export default function RPS() {
         >
           Rock
         </button>
+
         <button
           onClick={handleChoosePaper}
           disabled={
@@ -124,6 +125,7 @@ export default function RPS() {
         >
           Paper
         </button>
+
         <button
           onClick={handleChooseScissors}
           disabled={
@@ -142,36 +144,34 @@ export default function RPS() {
 
           <p className="mb--10">
             Your Choice:{" "}
-            {choice === "Rock" ? (
-              <span data-testid={"Choice"} className="red">
-                {choice}
-              </span>
-            ) : choice === "Paper" ? (
-              <span data-testid={"Choice"} className="blue">
-                {choice}
-              </span>
-            ) : (
-              <span data-testid={"Choice"} className="green">
-                {choice}
-              </span>
-            )}
+            <span
+              data-testid={"Choice"}
+              className={
+                choice === "Rock"
+                  ? "red"
+                  : choice === "Paper"
+                  ? "blue"
+                  : "green"
+              }
+            >
+              {choice}
+            </span>
           </p>
 
           <p className="mb--10">
             Enemy Result:{" "}
-            {enemyResult === "Rock" ? (
-              <span data-testid={"Enemy-Result"} className="red">
-                {enemyResult}
-              </span>
-            ) : enemyResult === "Paper" ? (
-              <span data-testid={"Enemy-Result"} className="blue">
-                {enemyResult}
-              </span>
-            ) : (
-              <span data-testid={"Enemy-Result"} className="green">
-                {enemyResult}
-              </span>
-            )}
+            <span
+              data-testid={"Enemy-Result"}
+              className={
+                enemyResult === "Rock"
+                  ? "red"
+                  : enemyResult === "Paper"
+                  ? "blue"
+                  : "green"
+              }
+            >
+              {enemyResult}
+            </span>
           </p>
 
           {(choice === "Rock" && enemyResult === "Scissors") ||
@@ -210,21 +210,16 @@ export default function RPS() {
 
           <p data-testid={"Past-Enemy-Results"}>
             Past Enemy Results:{" "}
-            {pastEnemyResults.map((result, index) =>
-              result === "R" ? (
-                <span className="red" key={index}>
-                  {result}{" "}
-                </span>
-              ) : result === "P" ? (
-                <span className="blue" key={index}>
-                  {result}{" "}
-                </span>
-              ) : (
-                <span className="green" key={index}>
-                  {result}{" "}
-                </span>
-              )
-            )}
+            {pastEnemyResults.map((result, index) => (
+              <span
+                className={
+                  result === "R" ? "red" : result === "P" ? "blue" : "green"
+                }
+                key={index}
+              >
+                {result}{" "}
+              </span>
+            ))}
           </p>
 
           <p data-testid={"Rock-Count"} className="mb--10">
