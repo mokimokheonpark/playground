@@ -16,7 +16,8 @@ a {
 }
 
 .coin-button-container,
-.dice-button-container {
+.dice-button-container,
+.rps-button-container {
   display: flex;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -31,6 +32,12 @@ a {
 .dice-button-container button {
   flex: 1;
   max-width: 30px;
+  margin-right: 10px;
+}
+
+.rps-button-container button {
+  flex: 1;
+  max-width: 70px;
   margin-right: 10px;
 }
 
