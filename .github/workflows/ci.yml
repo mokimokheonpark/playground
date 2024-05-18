@@ -5,20 +5,22 @@ name: Playground CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      MONGODB_URI: ${{secrets.MONGODB_URI}}
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js 20.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.x
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build
-    - run: npm test
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
