@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MONGODB_URI: ${{secrets.MONGODB_URI}}
+      GH_OAUTH_CLIENT_ID: ${{secrets.GH_OAUTH_CLIENT_ID}}
+      GH_OAUTH_CLIENT_SECRET: ${{secrets.GH_OAUTH_CLIENT_SECRET}}
+      AUTH_SECRET: ${{secrets.AUTH_SECRET}}
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 20.x
