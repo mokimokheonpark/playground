@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 
 if (!process.env.GH_OAUTH_CLIENT_ID) {
@@ -15,7 +16,7 @@ if (!process.env.AUTH_SECRET) {
   throw new Error('Invalid/Missing environment variable: "AUTH_SECRET"');
 }
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GH_OAUTH_CLIENT_ID,
