@@ -15,10 +15,6 @@ a {
   margin-bottom: -10px;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
 .coin-button-container,
 .dice-button-container,
 .rps-button-container {
