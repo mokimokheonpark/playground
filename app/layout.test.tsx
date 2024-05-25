@@ -1,6 +1,8 @@
 import { render } from "@testing-library/react";
 import RootLayout from "./layout";
 
+jest.mock("next-auth/react", () => ({}));
+
 describe("RootLayout", () => {
   test("renders without crashing", async () => {
     const children = <div></div>;
