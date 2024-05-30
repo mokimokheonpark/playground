@@ -1,6 +1,10 @@
 import { render } from "@testing-library/react";
 import Home from "./page";
 
+jest.mock("@/auth", () => ({
+  auth: jest.fn().mockResolvedValue(null),
+}));
+
 describe("Home Page", () => {
   test("renders without crashing", async () => {
     render(await Home());

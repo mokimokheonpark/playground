@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Session } from "next-auth";
 import Link from "next/link";
 import "./globals.css";
 import { SignIn } from "./components/SignIn";
@@ -15,7 +16,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  const session: Session | null = await auth();
 
   return (
     <html lang="en">

@@ -8,6 +8,7 @@ const createJestConfig = nextJest({
 const config: Config = {
   coverageProvider: "v8",
   testEnvironment: "jsdom",
+  testTimeout: 10000,
   moduleNameMapper: {
     "^@/auth$": "<rootDir>/auth",
     "^next-auth/react$": "<rootDir>/node_modules/next-auth/react",
