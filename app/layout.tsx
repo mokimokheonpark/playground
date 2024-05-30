@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { SignIn } from "./components/SignIn";
+import { SignOut } from "./components/SignOut";
 import { auth } from "@/auth";
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export default async function RootLayout({
           <Link href="/coin">Coin</Link>
           <Link href="/dice">Dice</Link>
           <Link href="/rps">RPS</Link>
-          {!session && <SignIn />}
+          {!session ? <SignIn /> : <SignOut />}
         </div>
         {children}
       </body>
