@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { SignIn } from "./components/SignIn";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -13,6 +14,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body>
@@ -21,7 +24,7 @@ export default async function RootLayout({
           <Link href="/coin">Coin</Link>
           <Link href="/dice">Dice</Link>
           <Link href="/rps">RPS</Link>
-          <SignIn />
+          {!session && <SignIn />}
         </div>
         {children}
       </body>
