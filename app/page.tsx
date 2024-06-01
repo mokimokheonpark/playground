@@ -1,7 +1,8 @@
+import { getServerSession } from "next-auth";
 import type { Session } from "next-auth";
 import type { Db, Document, MongoClient, WithId } from "mongodb";
 import clientPromise from "@/lib/mongodb";
-import { auth } from "@/auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export default async function Home() {
   const client: MongoClient = await clientPromise;
@@ -9,7 +10,7 @@ export default async function Home() {
   const test: WithId<Document> | null = await db
     .collection("tests")
     .findOne({ title: "test1" });
-  const session: Session | null = await auth();
+  const session: Session | null = await getServerSession(authOptions);
 
   return (
     <div className="pd-20">

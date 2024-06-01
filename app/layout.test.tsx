@@ -3,8 +3,8 @@ import { signIn } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import RootLayout from "./layout";
 
-jest.mock("@/auth", () => ({
-  auth: jest.fn().mockResolvedValue(null),
+jest.mock("next-auth", () => ({
+  getServerSession: jest.fn(),
 }));
 
 jest.mock("next-auth/react", () => ({
@@ -40,7 +40,9 @@ describe("RootLayout", () => {
   });
 
   test("renders Sign Out button when session is not null", async () => {
-    jest.spyOn(require("@/auth"), "auth").mockResolvedValueOnce("dummySession");
+    jest
+      .spyOn(require("next-auth"), "getServerSession")
+      .mockResolvedValueOnce("dummySession");
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
     expect(getByText("Sign Out")).toBeInTheDocument();
@@ -55,7 +57,9 @@ describe("RootLayout", () => {
   });
 
   test("calls signOut function when Sign Out button is clicked", async () => {
-    jest.spyOn(require("@/auth"), "auth").mockResolvedValueOnce("dummySession");
+    jest
+      .spyOn(require("next-auth"), "getServerSession")
+      .mockResolvedValueOnce("dummySession");
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
     const signOutButton = getByText("Sign Out");

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import type { Session } from "next-auth";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import type { Session } from "next-auth";
 import "./globals.css";
 import { SignIn } from "./components/SignIn";
 import { SignOut } from "./components/SignOut";
-import { auth } from "@/auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -16,7 +17,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session: Session | null = await auth();
+  const session: Session | null = await getServerSession(authOptions);
 
   return (
     <html lang="en">

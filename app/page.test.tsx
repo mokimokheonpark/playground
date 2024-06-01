@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react";
 import Home from "./page";
 
-jest.mock("@/auth", () => ({
-  auth: jest.fn().mockResolvedValue(null),
+jest.mock("next-auth", () => ({
+  getServerSession: jest.fn(),
 }));
 
 describe("Home Page", () => {
