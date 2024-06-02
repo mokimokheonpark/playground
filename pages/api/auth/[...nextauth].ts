@@ -54,6 +54,4 @@ export const authOptions = {
   secret: process.env.AUTH_SECRET,
 };
 
-// export default NextAuth(authOptions);
-
-export default authOptions;
+export default NextAuth(authOptions);

@@ -5,6 +5,10 @@ jest.mock("next-auth", () => ({
   getServerSession: jest.fn(),
 }));
 
+jest.mock("@/pages/api/auth/[...nextauth]", () => ({
+  authOptions: jest.fn(),
+}));
+
 describe("Home Page", () => {
   test("renders without crashing", async () => {
     render(await Home());

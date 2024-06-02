@@ -10,9 +10,7 @@ const config: Config = {
   testEnvironment: "jsdom",
   testTimeout: 20000,
   moduleNameMapper: {
-    "^@/pages/api/auth/[...nextauth]$":
-      "<rootDir>/pages/api/auth/[...nextauth]",
-    // "^next-auth/react$": "<rootDir>/node_modules/next-auth/react",
+    "^@/pages/(.*)$": "<rootDir>/pages/$1",
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };

@@ -12,6 +12,10 @@ jest.mock("next-auth/react", () => ({
   signOut: jest.fn(),
 }));
 
+jest.mock("@/pages/api/auth/[...nextauth]", () => ({
+  authOptions: jest.fn(),
+}));
+
 describe("RootLayout", () => {
   test("renders without crashing", async () => {
     const children = <div></div>;
