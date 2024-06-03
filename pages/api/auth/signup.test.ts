@@ -2,19 +2,23 @@ import type { NextApiRequest } from "next";
 import handler from "./signup";
 
 describe("signup API", () => {
-  const req = {
-    method: "POST",
-    body: {
-      email: "abc123@example.com",
-      password: "abcd1234",
-      passwordCheck: "abcd1234",
-      username: "testuser",
-    },
-  } as NextApiRequest;
+  let req: NextApiRequest;
   const res: any = {
     status: jest.fn(() => res),
     json: jest.fn(),
-  } as any;
+  };
+
+  beforeEach(() => {
+    req = {
+      method: "POST",
+      body: {
+        email: "abc123@example.com",
+        password: "abcd1234",
+        passwordCheck: "abcd1234",
+        username: "testuser",
+      },
+    } as NextApiRequest;
+  });
 
   test("email is required", async () => {
     req.body.email = "";
