@@ -30,6 +30,15 @@ describe("signup API", () => {
     expect(res.json).toHaveBeenCalledWith({ error: "Email is required." });
   });
 
+  test("the email provided is not in a valid format.", async () => {
+    req.body.email = "invalid-format";
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      error: "The email provided is not in a valid format.",
+    });
+  });
+
   test("password is required", async () => {
     req.body.password = "";
     await handler(req, res);

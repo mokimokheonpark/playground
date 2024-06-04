@@ -11,6 +11,11 @@ export default async function handler(
     if (req.body.email === "") {
       return res.status(400).json({ error: "Email is required." });
     }
+    if (!req.body.email.includes("@")) {
+      return res
+        .status(400)
+        .json({ error: "The email provided is not in a valid format." });
+    }
     if (req.body.password === "") {
       return res.status(400).json({ error: "Password is required." });
     }
