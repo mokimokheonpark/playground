@@ -27,7 +27,14 @@ export default async function RootLayout({
           <Link href="/coin">Coin</Link>
           <Link href="/dice">Dice</Link>
           <Link href="/rps">RPS</Link>
-          {!session ? <SignIn /> : <SignOut />}
+          {!session ? (
+            <>
+              <Link href="/signup">Sign-Up</Link>
+              <SignIn />
+            </>
+          ) : (
+            <SignOut />
+          )}
         </div>
         {children}
       </body>

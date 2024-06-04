@@ -37,6 +37,12 @@ describe("RootLayout", () => {
     expect(getByText("RPS")).toHaveAttribute("href", "/rps");
   });
 
+  test("renders Sign Up link when session is null", async () => {
+    const children = <div></div>;
+    const { getByText } = render(await RootLayout({ children }));
+    expect(getByText("Sign-Up")).toHaveAttribute("href", "/signup");
+  });
+
   test("renders Sign In button when session is null", async () => {
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
