@@ -3,16 +3,33 @@ a {
   text-decoration: none;
 }
 
-.navbar a {
-  margin-right: 20px;
+button {
+  padding: 10px 15px;
+  background: lightgray;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input {
+  box-sizing: border-box;
+  padding: 10px;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 15px;
+  width: 100%;
+}
+
+.mb--10 {
+  margin-bottom: -10px;
 }
 
 .pd-20 {
   padding: 20px;
 }
 
-.mb--10 {
-  margin-bottom: -10px;
+.navbar a {
+  margin-right: 20px;
 }
 
 .coin-button-container,
