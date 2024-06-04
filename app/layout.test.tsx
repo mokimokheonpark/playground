@@ -43,36 +43,36 @@ describe("RootLayout", () => {
     expect(getByText("Sign-Up")).toHaveAttribute("href", "/signup");
   });
 
-  test("renders Sign In button when session is null", async () => {
+  test("renders Sign In link when session is null", async () => {
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
-    expect(getByText("Sign In")).toBeInTheDocument();
+    expect(getByText("Sign-In")).toBeInTheDocument();
   });
 
-  test("renders Sign Out button when session is not null", async () => {
+  test("renders Sign Out link when session is not null", async () => {
     jest
       .spyOn(require("next-auth"), "getServerSession")
       .mockResolvedValueOnce("dummySession");
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
-    expect(getByText("Sign Out")).toBeInTheDocument();
+    expect(getByText("Sign-Out")).toBeInTheDocument();
   });
 
-  test("calls signIn function when Sign In button is clicked", async () => {
+  test("calls signIn function when Sign In link is clicked", async () => {
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
-    const signInButton = getByText("Sign In");
+    const signInButton = getByText("Sign-In");
     fireEvent.click(signInButton);
     expect(signIn).toHaveBeenCalledTimes(1);
   });
 
-  test("calls signOut function when Sign Out button is clicked", async () => {
+  test("calls signOut function when Sign Out link is clicked", async () => {
     jest
       .spyOn(require("next-auth"), "getServerSession")
       .mockResolvedValueOnce("dummySession");
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
-    const signOutButton = getByText("Sign Out");
+    const signOutButton = getByText("Sign-Out");
     fireEvent.click(signOutButton);
     expect(signOut).toHaveBeenCalledTimes(1);
   });

@@ -20,6 +20,10 @@ input {
   width: 100%;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .mb--10 {
   margin-bottom: -10px;
 }

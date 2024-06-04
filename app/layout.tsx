@@ -3,8 +3,8 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import type { Session } from "next-auth";
 import "./globals.css";
-import { SignIn } from "./components/SignIn";
-import { SignOut } from "./components/SignOut";
+import SignIn from "./components/SignIn";
+import SignOut from "./components/SignOut";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const metadata: Metadata = {
