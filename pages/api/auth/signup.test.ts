@@ -1,11 +1,14 @@
 import type { NextApiRequest } from "next";
+import type { Db, MongoClient } from "mongodb";
 import handler from "./signup";
+import clientPromise from "@/lib/mongodb";
 
 describe("signup API", () => {
   let req: NextApiRequest;
   const res: any = {
     status: jest.fn(() => res),
     json: jest.fn(),
+    redirect: jest.fn(),
   };
 
   beforeEach(() => {
@@ -57,5 +60,13 @@ describe("signup API", () => {
     await handler(req, res);
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ error: "Username is required." });
+  });
+
+  test("successfully signed up", async () => {
+    await handler(req, res);
+    expect(res.redirect).toHaveBeenCalledWith(307, "/");
+    const client: MongoClient = await clientPromise;
+    const db: Db = client.db("Playground");
+    await db.collection("users").deleteOne({ email: req.body.email });
   });
 });

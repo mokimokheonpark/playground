@@ -1,4 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import type { Db, Document, MongoClient, WithId } from "mongodb";
+import bcrypt from "bcrypt";
+import clientPromise from "@/lib/mongodb";
 
 export default async function handler(
   req: NextApiRequest,
@@ -23,5 +26,15 @@ export default async function handler(
       return res.status(400).json({ error: "Username is required." });
     }
     delete req.body.passwordCheck;
+    try {
+      const client: MongoClient = await clientPromise;
+      const db: Db = client.db("Playground");
+      const hash = await bcrypt.hash(req.body.password, 10);
+      req.body.password = hash;
+      await db.collection("users").insertOne(req.body);
+      return res.redirect(307, "/");
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   }
 }
