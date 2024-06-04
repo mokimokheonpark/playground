@@ -62,6 +62,15 @@ describe("signup API", () => {
     expect(res.json).toHaveBeenCalledWith({ error: "Username is required." });
   });
 
+  test("the email already exists", async () => {
+    req.body.email = "already@exists.com";
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith({
+      error: "The email already exists.",
+    });
+  });
+
   test("successfully signed up", async () => {
     await handler(req, res);
     expect(res.redirect).toHaveBeenCalledWith(307, "/");

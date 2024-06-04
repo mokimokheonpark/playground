@@ -29,6 +29,12 @@ export default async function handler(
     try {
       const client: MongoClient = await clientPromise;
       const db: Db = client.db("Playground");
+      const user: WithId<Document> | null = await db
+        .collection("users")
+        .findOne({ email: req.body.email });
+      if (user) {
+        return res.status(500).json({ error: "The email already exists." });
+      }
       const hash = await bcrypt.hash(req.body.password, 10);
       req.body.password = hash;
       await db.collection("users").insertOne(req.body);
