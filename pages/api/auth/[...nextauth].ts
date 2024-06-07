@@ -1,4 +1,5 @@
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth from "next-auth";
+import type { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import bcrypt from "bcrypt";
@@ -57,18 +58,16 @@ export const authOptions: AuthOptions = {
   },
 
   callbacks: {
-    jwt: async ({ token, user }: any) => {
+    jwt: async ({ token, user }) => {
       if (user) {
         token.user = {};
-        if (user.username) {
-          token.user.email = user.email;
-          token.user.username = user.username;
-        }
-        return token;
+        token.user.email = user.email;
+        token.user.username = user.username;
       }
+      return token;
     },
 
-    session: async ({ session, token }: any) => {
+    session: async ({ session, token }) => {
       session.user = token.user;
       return session;
     },
