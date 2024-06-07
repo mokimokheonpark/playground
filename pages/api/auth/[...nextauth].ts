@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import bcrypt from "bcrypt";
@@ -13,7 +13,7 @@ if (!process.env.AUTH_GITHUB_SECRET) {
   throw new Error('Invalid/Missing environment variable: "AUTH_GITHUB_SECRET"');
 }
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -50,6 +50,33 @@ export const authOptions = {
       clientSecret: process.env.AUTH_GITHUB_SECRET,
     }),
   ],
+
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 60 * 24 * 30,
+  },
+
+  callbacks: {
+    jwt: async ({ token, user }: any) => {
+      if (user) {
+        token.user = {};
+        if (user.username) {
+          token.user.email = user.email;
+          token.user.username = user.username;
+        }
+        return token;
+      }
+    },
+
+    session: async ({ session, token }: any) => {
+      session.user = token.user;
+      return session;
+    },
+
+    redirect: async ({ url, baseUrl }) => {
+      return baseUrl;
+    },
+  },
 
   secret: process.env.AUTH_SECRET,
 };
