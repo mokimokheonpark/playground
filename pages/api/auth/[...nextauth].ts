@@ -62,7 +62,27 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.user = {};
         token.user.email = user.email;
-        token.user.username = user.username;
+        if (user.username) {
+          token.user.username = user.username;
+        } else {
+          const index = user.email.indexOf("@");
+          if (index !== -1) {
+            token.user.username = user.email.slice(0, index);
+          } else {
+            token.user.username = "Unknown";
+          }
+          const client: MongoClient = await clientPromise;
+          const db: Db = client.db("Playground");
+          const gitHubUser: WithId<Document> | null = await db
+            .collection("users")
+            .findOne({ email: token.user.email });
+          if (!gitHubUser) {
+            await db.collection("users").insertOne({
+              email: token.user.email,
+              username: token.user.username,
+            });
+          }
+        }
       }
       return token;
     },
