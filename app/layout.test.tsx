@@ -38,12 +38,18 @@ describe("RootLayout", () => {
   });
 
   test("renders Sign Up link when session is null", async () => {
+    jest
+      .spyOn(require("next-auth"), "getServerSession")
+      .mockResolvedValueOnce(null);
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
     expect(getByText("Sign-Up")).toHaveAttribute("href", "/signup");
   });
 
   test("renders Sign In link when session is null", async () => {
+    jest
+      .spyOn(require("next-auth"), "getServerSession")
+      .mockResolvedValueOnce(null);
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
     expect(getByText("Sign-In")).toBeInTheDocument();
@@ -59,6 +65,9 @@ describe("RootLayout", () => {
   });
 
   test("calls signIn function when Sign In link is clicked", async () => {
+    jest
+      .spyOn(require("next-auth"), "getServerSession")
+      .mockResolvedValueOnce(null);
     const children = <div></div>;
     const { getByText } = render(await RootLayout({ children }));
     const signInButton = getByText("Sign-In");
