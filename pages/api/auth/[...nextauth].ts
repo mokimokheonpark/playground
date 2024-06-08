@@ -64,6 +64,7 @@ export const authOptions: AuthOptions = {
         token.user.email = user.email;
         if (user.username) {
           token.user.username = user.username;
+          token.user.points = user.points;
         } else {
           const index = user.email.indexOf("@");
           if (index !== -1) {
@@ -71,6 +72,7 @@ export const authOptions: AuthOptions = {
           } else {
             token.user.username = "Unknown";
           }
+          token.user.points = 5000;
           const client: MongoClient = await clientPromise;
           const db: Db = client.db("Playground");
           const gitHubUser: WithId<Document> | null = await db
@@ -80,6 +82,7 @@ export const authOptions: AuthOptions = {
             await db.collection("users").insertOne({
               email: token.user.email,
               username: token.user.username,
+              points: token.user.points,
             });
           }
         }

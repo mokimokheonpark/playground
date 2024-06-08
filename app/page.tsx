@@ -4,11 +4,13 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export default async function Home() {
   const session: Session | null = await getServerSession(authOptions);
-  let sessionUser: { email: string; username: string } | null = null;
+  let sessionUser: { email: string; username: string; points: number } | null =
+    null;
   if (session) {
     sessionUser = session.user as {
       email: string;
       username: string;
+      points: number;
     };
   }
 
@@ -22,6 +24,7 @@ export default async function Home() {
           <p>You are logged in!</p>
           <p>Email: {sessionUser.email}</p>
           <p>Username: {sessionUser.username}</p>
+          <p>Points: {sessionUser.points}</p>
         </>
       )}
     </div>

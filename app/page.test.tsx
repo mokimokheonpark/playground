@@ -34,6 +34,7 @@ describe("Home Page", () => {
       user: {
         email: "test@example.com",
         username: "testuser",
+        points: 7000,
       },
     };
     jest
@@ -43,5 +44,6 @@ describe("Home Page", () => {
     expect(getByText("You are logged in!")).toBeInTheDocument();
     expect(getByText("Email: test@example.com")).toBeInTheDocument();
     expect(getByText("Username: testuser")).toBeInTheDocument();
+    expect(getByText("Points: 7000")).toBeInTheDocument();
   });
 });

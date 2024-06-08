@@ -31,6 +31,7 @@ export default async function handler(
       return res.status(400).json({ error: "Username is required." });
     }
     delete req.body.passwordCheck;
+    req.body.points = 5000;
     try {
       const client: MongoClient = await clientPromise;
       const db: Db = client.db("Playground");
