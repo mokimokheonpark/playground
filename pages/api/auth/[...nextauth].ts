@@ -58,7 +58,7 @@ export const authOptions: AuthOptions = {
   },
 
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user }: any) => {
       if (user) {
         token.user = {};
         token.user.email = user.email;
@@ -67,12 +67,12 @@ export const authOptions: AuthOptions = {
       return token;
     },
 
-    session: async ({ session, token }) => {
+    session: async ({ session, token }: any) => {
       session.user = token.user;
       return session;
     },
 
-    redirect: async ({ url, baseUrl }) => {
+    redirect: async ({ baseUrl }) => {
       return baseUrl;
     },
   },
