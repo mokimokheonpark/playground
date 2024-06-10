@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 
-export default function Coin() {
+interface CoinProps {
+  sessionUser: {
+    email: string;
+    username: string;
+    points: number;
+  } | null;
+}
+
+export default function Coin({ sessionUser }: CoinProps) {
+  console.log(sessionUser);
+
   type HeadTail = "Head" | "Tail";
   type HT = "H" | "T";
   type HTArray = HT[];
