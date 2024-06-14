@@ -1,18 +1,23 @@
 import { fireEvent, render } from "@testing-library/react";
 import Coin from "./Coin";
 
+const mockProps = {
+  userEmail: "abc123@example.com",
+  userPoints: 10000,
+};
+
 describe("Coin Component", () => {
   test("renders without crashing", () => {
-    render(<Coin />);
+    render(<Coin {...mockProps} />);
   });
 
   test("displays the initial points correctly", () => {
-    const { getByText } = render(<Coin />);
+    const { getByText } = render(<Coin {...mockProps} />);
     expect(getByText("Points: 10000")).toBeInTheDocument();
   });
 
   test("updates points correctly when choosing Head", () => {
-    const { getByRole, getByTestId } = render(<Coin />);
+    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
     const points = getByTestId("Points");
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "100" } });
@@ -25,7 +30,7 @@ describe("Coin Component", () => {
   });
 
   test("updates points correctly when choosing Tail", () => {
-    const { getByRole, getByTestId } = render(<Coin />);
+    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
     const points = getByTestId("Points");
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "1200" } });
@@ -38,7 +43,9 @@ describe("Coin Component", () => {
   });
 
   test("does not update points if bet amount is 0", () => {
-    const { getByRole, getByTestId, getByText } = render(<Coin />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Coin {...mockProps} />
+    );
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "0" } });
     fireEvent.click(headButton);
@@ -46,7 +53,9 @@ describe("Coin Component", () => {
   });
 
   test("does not update points if bet amount is not a multiple of 100", () => {
-    const { getByRole, getByTestId, getByText } = render(<Coin />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Coin {...mockProps} />
+    );
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "150" } });
     fireEvent.click(headButton);
@@ -54,7 +63,9 @@ describe("Coin Component", () => {
   });
 
   test("does not update points if bet amount is greater than current points", () => {
-    const { getByRole, getByTestId, getByText } = render(<Coin />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Coin {...mockProps} />
+    );
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "11000" } });
     fireEvent.click(headButton);
@@ -62,7 +73,7 @@ describe("Coin Component", () => {
   });
 
   test("displays correct player-choice when choosing Head", () => {
-    const { getByRole, getByTestId } = render(<Coin />);
+    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.click(headButton);
     const choice = getByTestId("Choice");
@@ -70,7 +81,7 @@ describe("Coin Component", () => {
   });
 
   test("displays correct player-choice when choosing Tail", () => {
-    const { getByRole, getByTestId } = render(<Coin />);
+    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.click(tailButton);
     const choice = getByTestId("Choice");
@@ -78,7 +89,9 @@ describe("Coin Component", () => {
   });
 
   test("displays correct game-result-message when player wins/loses with Head", () => {
-    const { getByRole, getByTestId, getByText } = render(<Coin />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Coin {...mockProps} />
+    );
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "300" } });
     fireEvent.click(headButton);
@@ -91,7 +104,9 @@ describe("Coin Component", () => {
   });
 
   test("displays correct game-result-message when player wins/loses with Tail", () => {
-    const { getByRole, getByTestId, getByText } = render(<Coin />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Coin {...mockProps} />
+    );
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "500" } });
     fireEvent.click(tailButton);
@@ -104,7 +119,7 @@ describe("Coin Component", () => {
   });
 
   test("displays the number of total played games correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin />);
+    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
     const headButton = getByRole("button", { name: "Head" });
     const tailButton = getByRole("button", { name: "Tail" });
     for (let i = 0; i < 10; i++) {
@@ -120,7 +135,7 @@ describe("Coin Component", () => {
   });
 
   test("displays the number of total won/lost games correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin />);
+    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.click(headButton);
     const winCount = getByTestId("Win-Count");
@@ -144,7 +159,7 @@ describe("Coin Component", () => {
   });
 
   test("displays the number of total Head/Tail correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin />);
+    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.click(tailButton);
     const headCount = getByTestId("Head-Count");
@@ -168,7 +183,7 @@ describe("Coin Component", () => {
   });
 
   test("displays past-coin-results correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin />);
+    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
     const headButton = getByRole("button", { name: "Head" });
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.click(headButton);
@@ -190,7 +205,7 @@ describe("Coin Component", () => {
   });
 
   test("displays longest-consecutive-heads/tails correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin />);
+    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
     const headButton = getByRole("button", { name: "Head" });
     const tailButton = getByRole("button", { name: "Tail" });
     for (let i = 0; i < 100; i++) {

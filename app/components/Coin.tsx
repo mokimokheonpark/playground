@@ -2,14 +2,6 @@
 
 import { useState } from "react";
 
-interface CoinProps {
-  sessionUser: {
-    email: string;
-    username: string;
-    points: number;
-  } | null;
-}
-
 export default function Coin({
   userEmail,
   userPoints,
