@@ -11,8 +11,6 @@ interface CoinProps {
 }
 
 export default function Coin({ sessionUser }: CoinProps) {
-  console.log(sessionUser);
-
   type HeadTail = "Head" | "Tail";
   type HT = "H" | "T";
   type HTArray = HT[];

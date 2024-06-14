@@ -3,7 +3,7 @@ import type { Db, MongoClient } from "mongodb";
 import handler from "./signup";
 import clientPromise from "@/lib/mongodb";
 
-describe("signup API", () => {
+describe("auth/signup API route", () => {
   let req: NextApiRequest;
   const res: any = {
     status: jest.fn(() => res),
@@ -72,7 +72,7 @@ describe("signup API", () => {
   });
 
   test("the email already exists", async () => {
-    req.body.email = "already@exists.com";
+    req.body.email = "test@test.com";
     await handler(req, res);
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({
