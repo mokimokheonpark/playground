@@ -7,24 +7,16 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export default async function CoinPage() {
   const session: Session | null = await getServerSession(authOptions);
-  let sessionUser: { email: string; username: string; points: number } | null =
-    null;
-  let user: WithId<Document> | null = null;
-  if (session) {
-    sessionUser = session.user as {
-      email: string;
-      username: string;
-      points: number;
-    };
-    const client: MongoClient = await clientPromise;
-    const db: Db = client.db("Playground");
-    user = await db.collection("users").findOne({ email: sessionUser.email });
-  }
+  const client: MongoClient = await clientPromise;
+  const db: Db = client.db("Playground");
+  const user: WithId<Document> | null = await db
+    .collection("users")
+    .findOne({ email: session?.user?.email });
 
   return (
     <div className="pd-20">
       <h3>Coin Flipping</h3>
-      <Coin sessionUser={sessionUser} />
+      <Coin userEmail={user?.email} userPoints={user?.points} />
     </div>
   );
 }

@@ -10,7 +10,13 @@ interface CoinProps {
   } | null;
 }
 
-export default function Coin({ sessionUser }: CoinProps) {
+export default function Coin({
+  userEmail,
+  userPoints,
+}: {
+  userEmail: string;
+  userPoints: number;
+}) {
   type HeadTail = "Head" | "Tail";
   type HT = "H" | "T";
   type HTArray = HT[];
