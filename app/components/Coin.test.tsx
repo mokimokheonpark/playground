@@ -86,29 +86,36 @@ describe("Coin Component", () => {
     expect(getByText("Points: 10000")).toBeInTheDocument();
   });
 
-  test("displays correct player-choice when choosing Head", () => {
-    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
+  test("displays correct player-choice when choosing Head", async () => {
+    const { findByTestId, getByRole, getByTestId } = render(
+      <Coin {...mockProps} />
+    );
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.click(headButton);
+    await findByTestId("Choice");
     const choice = getByTestId("Choice");
     expect(choice).toHaveTextContent("Head");
   });
 
-  test("displays correct player-choice when choosing Tail", () => {
-    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
+  test("displays correct player-choice when choosing Tail", async () => {
+    const { findByTestId, getByRole, getByTestId } = render(
+      <Coin {...mockProps} />
+    );
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.click(tailButton);
+    await findByTestId("Choice");
     const choice = getByTestId("Choice");
     expect(choice).toHaveTextContent("Tail");
   });
 
-  test("displays correct game-result-message when player wins/loses with Head", () => {
-    const { getByRole, getByTestId, getByText } = render(
+  test("displays correct game-result-message when player wins/loses with Head", async () => {
+    const { findByTestId, getByRole, getByTestId, getByText } = render(
       <Coin {...mockProps} />
     );
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "300" } });
     fireEvent.click(headButton);
+    await findByTestId("Coin-Result");
     const coinResult = getByTestId("Coin-Result");
     if (coinResult.textContent === "Head") {
       expect(getByText("You earned 291 points!")).toBeInTheDocument();
@@ -117,13 +124,14 @@ describe("Coin Component", () => {
     }
   });
 
-  test("displays correct game-result-message when player wins/loses with Tail", () => {
-    const { getByRole, getByTestId, getByText } = render(
+  test("displays correct game-result-message when player wins/loses with Tail", async () => {
+    const { findByTestId, getByRole, getByTestId, getByText } = render(
       <Coin {...mockProps} />
     );
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "500" } });
     fireEvent.click(tailButton);
+    await findByTestId("Coin-Result");
     const coinResult = getByTestId("Coin-Result");
     if (coinResult.textContent === "Tail") {
       expect(getByText("You earned 485 points!")).toBeInTheDocument();
@@ -132,14 +140,17 @@ describe("Coin Component", () => {
     }
   });
 
-  test("displays the number of total played games correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
+  test("displays the number of total played games correctly", async () => {
+    const { findByTestId, getByRole, getByTestId } = render(
+      <Coin {...mockProps} />
+    );
     const headButton = getByRole("button", { name: "Head" });
     const tailButton = getByRole("button", { name: "Tail" });
     for (let i = 0; i < 10; i++) {
       fireEvent.click(headButton);
       fireEvent.click(tailButton);
     }
+    await findByTestId("Play-Count");
     const playCount = getByTestId("Play-Count");
     let playCountNumber;
     if (playCount.textContent) {
@@ -148,20 +159,25 @@ describe("Coin Component", () => {
     expect(playCountNumber).toEqual(20);
   });
 
-  test("displays the number of total won/lost games correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
+  test("displays the number of total won/lost games correctly", async () => {
+    const { findByTestId, getByRole, getByTestId } = render(
+      <Coin {...mockProps} />
+    );
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.click(headButton);
+    await findByTestId("Win-Count");
     const winCount = getByTestId("Win-Count");
     let winCountNumber;
     if (winCount.textContent) {
       winCountNumber = parseInt(winCount.textContent.split(" ")[1]);
     }
+    await findByTestId("Loss-Count");
     const lossCount = getByTestId("Loss-Count");
     let lossCountNumber;
     if (lossCount.textContent) {
       lossCountNumber = parseInt(lossCount.textContent.split(" ")[1]);
     }
+    await findByTestId("Coin-Result");
     const coinResult = getByTestId("Coin-Result");
     if (coinResult.textContent === "Head") {
       expect(winCountNumber).toEqual(1);
@@ -172,20 +188,25 @@ describe("Coin Component", () => {
     }
   });
 
-  test("displays the number of total Head/Tail correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
+  test("displays the number of total Head/Tail correctly", async () => {
+    const { findByTestId, getByRole, getByTestId } = render(
+      <Coin {...mockProps} />
+    );
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.click(tailButton);
+    await findByTestId("Head-Count");
     const headCount = getByTestId("Head-Count");
     let headCountNumber;
     if (headCount.textContent) {
       headCountNumber = parseInt(headCount.textContent.split(" ")[1]);
     }
+    await findByTestId("Tail-Count");
     const tailCount = getByTestId("Tail-Count");
     let tailCountNumber;
     if (tailCount.textContent) {
       tailCountNumber = parseInt(tailCount.textContent.split(" ")[1]);
     }
+    await findByTestId("Coin-Result");
     const coinResult = getByTestId("Coin-Result");
     if (coinResult.textContent === "Tail") {
       expect(headCountNumber).toEqual(0);
@@ -196,13 +217,16 @@ describe("Coin Component", () => {
     }
   });
 
-  test("displays past-coin-results correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
+  test("displays past-coin-results correctly", async () => {
+    const { findByTestId, getByRole, getByTestId } = render(
+      <Coin {...mockProps} />
+    );
     const headButton = getByRole("button", { name: "Head" });
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.click(headButton);
     fireEvent.click(tailButton);
     fireEvent.click(headButton);
+    await findByTestId("Past-Coin-Results");
     const pastCoinResultsContainer = getByTestId("Past-Coin-Results");
     const pastCoinResults =
       pastCoinResultsContainer.textContent?.split(": ")[1];
@@ -218,14 +242,17 @@ describe("Coin Component", () => {
     ]).toContain(pastCoinResults);
   });
 
-  test("displays longest-consecutive-heads/tails correctly", () => {
-    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
+  test("displays longest-consecutive-heads/tails correctly", async () => {
+    const { findByTestId, getByRole, getByTestId } = render(
+      <Coin {...mockProps} />
+    );
     const headButton = getByRole("button", { name: "Head" });
     const tailButton = getByRole("button", { name: "Tail" });
     for (let i = 0; i < 100; i++) {
       fireEvent.click(headButton);
       fireEvent.click(tailButton);
     }
+    await findByTestId("Longest-Consecutive-Heads");
     const longestConsecutiveHeadsContainer = getByTestId(
       "Longest-Consecutive-Heads"
     );
@@ -235,6 +262,7 @@ describe("Coin Component", () => {
         longestConsecutiveHeadsContainer.textContent.split(" ")[3]
       );
     }
+    await findByTestId("Longest-Consecutive-Tails");
     const longestConsecutiveTailsContainer = getByTestId(
       "Longest-Consecutive-Tails"
     );
@@ -244,6 +272,7 @@ describe("Coin Component", () => {
         longestConsecutiveTailsContainer.textContent.split(" ")[3]
       );
     }
+    await findByTestId("Past-Coin-Results");
     const pastCoinResultsContainer = getByTestId("Past-Coin-Results");
     const pastCoinResults = pastCoinResultsContainer.textContent
       ?.split(": ")[1]
