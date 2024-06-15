@@ -32,9 +32,7 @@ describe("Home Page", () => {
   test("renders user information when session is not null", async () => {
     const mockSession = {
       user: {
-        email: "test@example.com",
-        username: "testuser",
-        points: 7000,
+        email: "test@test.com",
       },
     };
     jest
@@ -42,8 +40,8 @@ describe("Home Page", () => {
       .mockResolvedValueOnce(mockSession);
     const { getByText } = render(await Home());
     expect(getByText("You are logged in!")).toBeInTheDocument();
-    expect(getByText("Email: test@example.com")).toBeInTheDocument();
+    expect(getByText("Email: test@test.com")).toBeInTheDocument();
     expect(getByText("Username: testuser")).toBeInTheDocument();
-    expect(getByText("Points: 7000")).toBeInTheDocument();
+    expect(getByText("Points: 99999")).toBeInTheDocument();
   });
 });
