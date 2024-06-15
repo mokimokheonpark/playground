@@ -1,12 +1,20 @@
 import { fireEvent, render } from "@testing-library/react";
 import Coin from "./Coin";
 
-const mockProps = {
-  userEmail: "abc123@example.com",
-  userPoints: 10000,
-};
-
 describe("Coin Component", () => {
+  const mockProps = {
+    userEmail: "abc123@example.com",
+    userPoints: 10000,
+  };
+
+  beforeEach(() => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({}),
+      })
+    ) as jest.Mock;
+  });
+
   test("renders without crashing", () => {
     render(<Coin {...mockProps} />);
   });
@@ -16,12 +24,15 @@ describe("Coin Component", () => {
     expect(getByText("Points: 10000")).toBeInTheDocument();
   });
 
-  test("updates points correctly when choosing Head", () => {
-    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
+  test("updates points correctly when choosing Head", async () => {
+    const { findByTestId, getByRole, getByTestId } = render(
+      <Coin {...mockProps} />
+    );
     const points = getByTestId("Points");
     const headButton = getByRole("button", { name: "Head" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "100" } });
     fireEvent.click(headButton);
+    await findByTestId("Points");
     let updatedPoints;
     if (points.textContent) {
       updatedPoints = parseInt(points.textContent.split(" ")[1]);
@@ -29,12 +40,15 @@ describe("Coin Component", () => {
     expect([9900, 10097]).toContainEqual(updatedPoints);
   });
 
-  test("updates points correctly when choosing Tail", () => {
-    const { getByRole, getByTestId } = render(<Coin {...mockProps} />);
+  test("updates points correctly when choosing Tail", async () => {
+    const { findByTestId, getByRole, getByTestId } = render(
+      <Coin {...mockProps} />
+    );
     const points = getByTestId("Points");
     const tailButton = getByRole("button", { name: "Tail" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "1200" } });
     fireEvent.click(tailButton);
+    await findByTestId("Points");
     let updatedPoints;
     if (points.textContent) {
       updatedPoints = parseInt(points.textContent.split(" ")[1]);

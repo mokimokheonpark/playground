@@ -13,7 +13,7 @@ export default function Coin({
   type HT = "H" | "T";
   type HTArray = HT[];
 
-  const [points, setPoints] = useState<number>(10000);
+  const [points, setPoints] = useState<number>(userPoints);
   const [betAmountInput, setBetAmountInput] = useState<number>(100);
   const [betAmount, setBetAmount] = useState<number>(0);
   const [choice, setChoice] = useState<HeadTail>("Head");
@@ -37,38 +37,62 @@ export default function Coin({
     return longestConsecutive;
   };
 
-  const handleChooseHead = (): void => {
+  const handleChooseHead = async () => {
     const result: number = Math.floor(Math.random() * 2) + 1;
+    let updatedUserPoints: number;
     setBetAmount(betAmountInput);
     setChoice("Head");
     setPlayCount((prev) => prev + 1);
     if (result === 1) {
+      updatedUserPoints = points + betAmountInput * 0.97;
       setCoinResult("Head");
-      setPoints((prev) => prev + betAmountInput * 0.97);
       setWinCount((prev) => prev + 1);
       setPastCoinResults((prev) => [...prev, "H"]);
     } else {
+      updatedUserPoints = points - betAmountInput;
       setCoinResult("Tail");
-      setPoints((prev) => prev - betAmountInput);
       setPastCoinResults((prev) => [...prev, "T"]);
     }
+    await fetch("/api/points/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userEmail: userEmail,
+        updatedUserPoints: updatedUserPoints,
+      }),
+    });
+    setPoints(updatedUserPoints);
   };
 
-  const handleChooseTail = (): void => {
+  const handleChooseTail = async () => {
     const result: number = Math.floor(Math.random() * 2) + 1;
+    let updatedUserPoints: number;
     setBetAmount(betAmountInput);
     setChoice("Tail");
     setPlayCount((prev) => prev + 1);
     if (result === 2) {
+      updatedUserPoints = points + betAmountInput * 0.97;
       setCoinResult("Tail");
-      setPoints((prev) => prev + betAmountInput * 0.97);
       setWinCount((prev) => prev + 1);
       setPastCoinResults((prev) => [...prev, "T"]);
     } else {
+      updatedUserPoints = points - betAmountInput;
       setCoinResult("Head");
-      setPoints((prev) => prev - betAmountInput);
       setPastCoinResults((prev) => [...prev, "H"]);
     }
+    await fetch("/api/points/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userEmail: userEmail,
+        updatedUserPoints: updatedUserPoints,
+      }),
+    });
+    setPoints(updatedUserPoints);
   };
 
   return (
