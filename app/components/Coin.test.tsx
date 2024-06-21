@@ -1,6 +1,12 @@
 import { fireEvent, render } from "@testing-library/react";
 import Coin from "./Coin";
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: jest.fn(),
+  }),
+}));
+
 describe("Coin Component", () => {
   const mockProps = {
     userEmail: "abc123@example.com",

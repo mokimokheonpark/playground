@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Coin({
   userEmail,
@@ -21,6 +22,8 @@ export default function Coin({
   const [playCount, setPlayCount] = useState<number>(0);
   const [winCount, setWinCount] = useState<number>(0);
   const [pastCoinResults, setPastCoinResults] = useState<HTArray>([]);
+
+  const router = useRouter();
 
   const getLongestConsecutive = (results: HTArray, target: HT): number => {
     let longestConsecutive = 0;
@@ -64,6 +67,7 @@ export default function Coin({
       }),
     });
     setPoints(updatedUserPoints);
+    router.refresh();
   };
 
   const handleChooseTail = async () => {
@@ -93,6 +97,7 @@ export default function Coin({
       }),
     });
     setPoints(updatedUserPoints);
+    router.refresh();
   };
 
   return (

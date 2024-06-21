@@ -1,6 +1,10 @@
 import { render } from "@testing-library/react";
 import CoinPage from "./page";
 
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
+}));
+
 jest.mock("next-auth", () => ({
   getServerSession: jest.fn(),
 }));
