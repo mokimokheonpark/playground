@@ -42,6 +42,6 @@ describe("Home Page", () => {
     expect(getByText("You are logged in!")).toBeInTheDocument();
     expect(getByText("Email: test@test.com")).toBeInTheDocument();
     expect(getByText("Username: testuser")).toBeInTheDocument();
-    expect(getByText("Points: 99999")).toBeInTheDocument();
+    expect(getByText("Points: 7000")).toBeInTheDocument();
   });
 });
