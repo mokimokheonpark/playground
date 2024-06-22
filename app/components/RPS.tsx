@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RPS({
   userEmail,
@@ -13,7 +14,7 @@ export default function RPS({
   type RPS = "R" | "P" | "S";
   type RPSArray = RPS[];
 
-  const [points, setPoints] = useState<number>(10000);
+  const [points, setPoints] = useState<number>(userPoints);
   const [betAmountInput, setBetAmountInput] = useState<number>(100);
   const [betAmount, setBetAmount] = useState<number>(0);
   const [choice, setChoice] = useState<RockPaperScissors>("Rock");
@@ -23,18 +24,21 @@ export default function RPS({
   const [drawCount, setDrawCount] = useState<number>(0);
   const [pastEnemyResults, setPastEnemyResults] = useState<RPSArray>([]);
 
-  const handleChooseRock = (): void => {
+  const router = useRouter();
+
+  const handleChooseRock = async () => {
+    const result: number = Math.floor(Math.random() * 3) + 1;
+    let updatedUserPoints: number;
     setBetAmount(betAmountInput);
     setChoice("Rock");
     setPlayCount((prev) => prev + 1);
-    const result: number = Math.floor(Math.random() * 3) + 1;
     if (result === 3) {
-      setPoints((prev) => prev + betAmountInput * 1.95);
+      updatedUserPoints = points + betAmountInput * 1.95;
       setWinCount((prev) => prev + 1);
       setEnemyResult("Scissors");
       setPastEnemyResults((prev) => [...prev, "S"]);
     } else {
-      setPoints((prev) => prev - betAmountInput);
+      updatedUserPoints = points - betAmountInput;
       if (result === 1) {
         setDrawCount((prev) => prev + 1);
         setEnemyResult("Rock");
@@ -44,20 +48,33 @@ export default function RPS({
         setPastEnemyResults((prev) => [...prev, "P"]);
       }
     }
+    setPoints(updatedUserPoints);
+    await fetch("/api/points/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userEmail: userEmail,
+        updatedUserPoints: updatedUserPoints,
+      }),
+    });
+    router.refresh();
   };
 
-  const handleChoosePaper = (): void => {
+  const handleChoosePaper = async () => {
+    const result: number = Math.floor(Math.random() * 3) + 1;
+    let updatedUserPoints: number;
     setBetAmount(betAmountInput);
     setChoice("Paper");
     setPlayCount((prev) => prev + 1);
-    const result: number = Math.floor(Math.random() * 3) + 1;
     if (result === 1) {
-      setPoints((prev) => prev + betAmountInput * 1.95);
+      updatedUserPoints = points + betAmountInput * 1.95;
       setWinCount((prev) => prev + 1);
       setEnemyResult("Rock");
       setPastEnemyResults((prev) => [...prev, "R"]);
     } else {
-      setPoints((prev) => prev - betAmountInput);
+      updatedUserPoints = points - betAmountInput;
       if (result === 2) {
         setDrawCount((prev) => prev + 1);
         setEnemyResult("Paper");
@@ -67,20 +84,33 @@ export default function RPS({
         setPastEnemyResults((prev) => [...prev, "S"]);
       }
     }
+    setPoints(updatedUserPoints);
+    await fetch("/api/points/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userEmail: userEmail,
+        updatedUserPoints: updatedUserPoints,
+      }),
+    });
+    router.refresh();
   };
 
-  const handleChooseScissors = (): void => {
+  const handleChooseScissors = async () => {
+    const result: number = Math.floor(Math.random() * 3) + 1;
+    let updatedUserPoints: number;
     setBetAmount(betAmountInput);
     setChoice("Scissors");
     setPlayCount((prev) => prev + 1);
-    const result: number = Math.floor(Math.random() * 3) + 1;
     if (result === 2) {
-      setPoints((prev) => prev + betAmountInput * 1.95);
+      updatedUserPoints = points + betAmountInput * 1.95;
       setWinCount((prev) => prev + 1);
       setEnemyResult("Paper");
       setPastEnemyResults((prev) => [...prev, "P"]);
     } else {
-      setPoints((prev) => prev - betAmountInput);
+      updatedUserPoints = points - betAmountInput;
       if (result === 1) {
         setEnemyResult("Rock");
         setPastEnemyResults((prev) => [...prev, "R"]);
@@ -90,6 +120,18 @@ export default function RPS({
         setPastEnemyResults((prev) => [...prev, "S"]);
       }
     }
+    setPoints(updatedUserPoints);
+    await fetch("/api/points/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userEmail: userEmail,
+        updatedUserPoints: updatedUserPoints,
+      }),
+    });
+    router.refresh();
   };
 
   return (

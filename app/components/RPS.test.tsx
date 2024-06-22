@@ -1,18 +1,37 @@
 import { fireEvent, render } from "@testing-library/react";
 import RPS from "./RPS";
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: jest.fn(),
+  }),
+}));
+
 describe("Rock-Paper-Scissors Component", () => {
+  const mockProps = {
+    userEmail: "abc123@example.com",
+    userPoints: 10000,
+  };
+
+  beforeEach(() => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({}),
+      })
+    ) as jest.Mock;
+  });
+
   test("renders without crashing", () => {
-    render(<RPS />);
+    render(<RPS {...mockProps} />);
   });
 
   test("displays the initial points correctly", () => {
-    const { getByText } = render(<RPS />);
+    const { getByText } = render(<RPS {...mockProps} />);
     expect(getByText("Points: 10000")).toBeInTheDocument();
   });
 
   test("updates points correctly when choosing Rock", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const points = getByTestId("Points");
     const rockButton = getByRole("button", { name: "Rock" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "100" } });
@@ -25,7 +44,7 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("updates points correctly when choosing Paper", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const points = getByTestId("Points");
     const paperButton = getByRole("button", { name: "Paper" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "200" } });
@@ -38,7 +57,7 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("updates points correctly when choosing Scissors", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const points = getByTestId("Points");
     const scissorsButton = getByRole("button", { name: "Scissors" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "500" } });
@@ -51,7 +70,9 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("does not update points if bet amount is 0", () => {
-    const { getByRole, getByTestId, getByText } = render(<RPS />);
+    const { getByRole, getByTestId, getByText } = render(
+      <RPS {...mockProps} />
+    );
     const rockButton = getByRole("button", { name: "Rock" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "0" } });
     fireEvent.click(rockButton);
@@ -59,7 +80,9 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("does not update points if bet amount is not a multiple of 100", () => {
-    const { getByRole, getByTestId, getByText } = render(<RPS />);
+    const { getByRole, getByTestId, getByText } = render(
+      <RPS {...mockProps} />
+    );
     const paperButton = getByRole("button", { name: "Paper" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "90" } });
     fireEvent.click(paperButton);
@@ -67,7 +90,9 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("does not update points if bet amount is greater than current points", () => {
-    const { getByRole, getByTestId, getByText } = render(<RPS />);
+    const { getByRole, getByTestId, getByText } = render(
+      <RPS {...mockProps} />
+    );
     const scissorsButton = getByRole("button", { name: "Scissors" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "50000" } });
     fireEvent.click(scissorsButton);
@@ -75,7 +100,7 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays correct player-choice when choosing Rock", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const rockButton = getByRole("button", { name: "Rock" });
     fireEvent.click(rockButton);
     const choice = getByTestId("Choice");
@@ -83,7 +108,7 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays correct player-choice when choosing Paper", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const paperButton = getByRole("button", { name: "Paper" });
     fireEvent.click(paperButton);
     const choice = getByTestId("Choice");
@@ -91,7 +116,7 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays correct player-choice when choosing Scissors", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const scissorsButton = getByRole("button", { name: "Scissors" });
     fireEvent.click(scissorsButton);
     const choice = getByTestId("Choice");
@@ -99,7 +124,9 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays correct game-result-message when player wins/draws/loses with Rock", () => {
-    const { getByRole, getByTestId, getByText } = render(<RPS />);
+    const { getByRole, getByTestId, getByText } = render(
+      <RPS {...mockProps} />
+    );
     const rockButton = getByRole("button", { name: "Rock" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "1000" } });
     fireEvent.click(rockButton);
@@ -114,7 +141,9 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays correct game-result-message when player wins/draws/loses with Paper", () => {
-    const { getByRole, getByTestId, getByText } = render(<RPS />);
+    const { getByRole, getByTestId, getByText } = render(
+      <RPS {...mockProps} />
+    );
     const paperButton = getByRole("button", { name: "Paper" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "1700" } });
     fireEvent.click(paperButton);
@@ -129,7 +158,9 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays correct game-result-message when player wins/draws/loses with Scissors", () => {
-    const { getByRole, getByTestId, getByText } = render(<RPS />);
+    const { getByRole, getByTestId, getByText } = render(
+      <RPS {...mockProps} />
+    );
     const scissorsButton = getByRole("button", { name: "Scissors" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "600" } });
     fireEvent.click(scissorsButton);
@@ -144,7 +175,7 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays the number of total played games correctly", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const rockButton = getByRole("button", { name: "Rock" });
     const paperButton = getByRole("button", { name: "Paper" });
     const scissorsButton = getByRole("button", { name: "Scissors" });
@@ -162,7 +193,7 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays the number of total won/drawn/lost games correctly", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const paperButton = getByRole("button", { name: "Paper" });
     fireEvent.click(paperButton);
     const winCount = getByTestId("Win-Count");
@@ -197,7 +228,7 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays the number of total Rock/Paper/Scissors correctly", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const scissorsButton = getByRole("button", { name: "Scissors" });
     fireEvent.click(scissorsButton);
     const rockCount = getByTestId("Rock-Count");
@@ -226,7 +257,7 @@ describe("Rock-Paper-Scissors Component", () => {
   });
 
   test("displays past-enemy-results correctly", () => {
-    const { getByRole, getByTestId } = render(<RPS />);
+    const { getByRole, getByTestId } = render(<RPS {...mockProps} />);
     const rockButton = getByRole("button", { name: "Rock" });
     const paperButton = getByRole("button", { name: "Paper" });
     const scissorsButton = getByRole("button", { name: "Scissors" });
