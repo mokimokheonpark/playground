@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 
-export default function Dice() {
+export default function Dice({
+  userEmail,
+  userPoints,
+}: {
+  userEmail: string;
+  userPoints: number;
+}) {
   const [points, setPoints] = useState<number>(10000);
   const [betAmountInput, setBetAmountInput] = useState<number>(100);
   const [betAmount, setBetAmount] = useState<number>(0);
