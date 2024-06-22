@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 
-export default function RPS() {
+export default function RPS({
+  userEmail,
+  userPoints,
+}: {
+  userEmail: string;
+  userPoints: number;
+}) {
   type RockPaperScissors = "Rock" | "Paper" | "Scissors";
   type RPS = "R" | "P" | "S";
   type RPSArray = RPS[];
