@@ -1,18 +1,37 @@
 import { fireEvent, render } from "@testing-library/react";
 import Dice from "./Dice";
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: jest.fn(),
+  }),
+}));
+
 describe("Dice Component", () => {
+  const mockProps = {
+    userEmail: "abc123@example.com",
+    userPoints: 10000,
+  };
+
+  beforeEach(() => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({}),
+      })
+    ) as jest.Mock;
+  });
+
   test("renders without crashing", () => {
-    render(<Dice />);
+    render(<Dice {...mockProps} />);
   });
 
   test("displays the initial points correctly", () => {
-    const { getByText } = render(<Dice />);
+    const { getByText } = render(<Dice {...mockProps} />);
     expect(getByText("Points: 10000")).toBeInTheDocument();
   });
 
   test("updates points correctly when choosing number 1", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const points = getByTestId("Points");
     const button1 = getByRole("button", { name: "1" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "100" } });
@@ -25,7 +44,7 @@ describe("Dice Component", () => {
   });
 
   test("updates points correctly when choosing number 2", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const points = getByTestId("Points");
     const button2 = getByRole("button", { name: "2" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "500" } });
@@ -38,7 +57,7 @@ describe("Dice Component", () => {
   });
 
   test("updates points correctly when choosing number 3", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const points = getByTestId("Points");
     const button3 = getByRole("button", { name: "3" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "1000" } });
@@ -51,7 +70,7 @@ describe("Dice Component", () => {
   });
 
   test("updates points correctly when choosing number 4", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const points = getByTestId("Points");
     const button4 = getByRole("button", { name: "4" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "1300" } });
@@ -64,7 +83,7 @@ describe("Dice Component", () => {
   });
 
   test("updates points correctly when choosing number 5", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const points = getByTestId("Points");
     const button5 = getByRole("button", { name: "5" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "2000" } });
@@ -77,7 +96,7 @@ describe("Dice Component", () => {
   });
 
   test("updates points correctly when choosing number 6", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const points = getByTestId("Points");
     const button6 = getByRole("button", { name: "6" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "5000" } });
@@ -90,7 +109,9 @@ describe("Dice Component", () => {
   });
 
   test("does not update points if bet amount is 0", () => {
-    const { getByRole, getByTestId, getByText } = render(<Dice />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Dice {...mockProps} />
+    );
     const button1 = getByRole("button", { name: "1" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "0" } });
     fireEvent.click(button1);
@@ -98,7 +119,9 @@ describe("Dice Component", () => {
   });
 
   test("does not update points if bet amount is not a multiple of 100", () => {
-    const { getByRole, getByTestId, getByText } = render(<Dice />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Dice {...mockProps} />
+    );
     const button4 = getByRole("button", { name: "4" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "299" } });
     fireEvent.click(button4);
@@ -106,7 +129,9 @@ describe("Dice Component", () => {
   });
 
   test("does not update points if bet amount is greater than current points", () => {
-    const { getByRole, getByTestId, getByText } = render(<Dice />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Dice {...mockProps} />
+    );
     const button6 = getByRole("button", { name: "6" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "10100" } });
     fireEvent.click(button6);
@@ -114,7 +139,7 @@ describe("Dice Component", () => {
   });
 
   test("displays correct player-choice when choosing number 1", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button1 = getByRole("button", { name: "1" });
     fireEvent.click(button1);
     const choice = getByTestId("Choice");
@@ -122,7 +147,7 @@ describe("Dice Component", () => {
   });
 
   test("displays correct player-choice when choosing number 2", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button2 = getByRole("button", { name: "2" });
     fireEvent.click(button2);
     const choice = getByTestId("Choice");
@@ -130,7 +155,7 @@ describe("Dice Component", () => {
   });
 
   test("displays correct player-choice when choosing number 3", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button3 = getByRole("button", { name: "3" });
     fireEvent.click(button3);
     const choice = getByTestId("Choice");
@@ -138,7 +163,7 @@ describe("Dice Component", () => {
   });
 
   test("displays correct player-choice when choosing number 4", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button4 = getByRole("button", { name: "4" });
     fireEvent.click(button4);
     const choice = getByTestId("Choice");
@@ -146,7 +171,7 @@ describe("Dice Component", () => {
   });
 
   test("displays correct player-choice when choosing number 5", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button5 = getByRole("button", { name: "5" });
     fireEvent.click(button5);
     const choice = getByTestId("Choice");
@@ -154,7 +179,7 @@ describe("Dice Component", () => {
   });
 
   test("displays correct player-choice when choosing number 6", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button6 = getByRole("button", { name: "6" });
     fireEvent.click(button6);
     const choice = getByTestId("Choice");
@@ -162,7 +187,9 @@ describe("Dice Component", () => {
   });
 
   test("displays correct game-result-message when player wins/loses with number 1", () => {
-    const { getByRole, getByTestId, getByText } = render(<Dice />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Dice {...mockProps} />
+    );
     const button1 = getByRole("button", { name: "1" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "1500" } });
     fireEvent.click(button1);
@@ -175,7 +202,9 @@ describe("Dice Component", () => {
   });
 
   test("displays correct game-result-message when player wins/loses with number 2", () => {
-    const { getByRole, getByTestId, getByText } = render(<Dice />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Dice {...mockProps} />
+    );
     const button2 = getByRole("button", { name: "2" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "200" } });
     fireEvent.click(button2);
@@ -188,7 +217,9 @@ describe("Dice Component", () => {
   });
 
   test("displays correct game-result-message when player wins/loses with number 3", () => {
-    const { getByRole, getByTestId, getByText } = render(<Dice />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Dice {...mockProps} />
+    );
     const button3 = getByRole("button", { name: "3" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "800" } });
     fireEvent.click(button3);
@@ -201,7 +232,9 @@ describe("Dice Component", () => {
   });
 
   test("displays correct game-result-message when player wins/loses with number 4", () => {
-    const { getByRole, getByTestId, getByText } = render(<Dice />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Dice {...mockProps} />
+    );
     const button4 = getByRole("button", { name: "4" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "1100" } });
     fireEvent.click(button4);
@@ -214,7 +247,9 @@ describe("Dice Component", () => {
   });
 
   test("displays correct game-result-message when player wins/loses with number 5", () => {
-    const { getByRole, getByTestId, getByText } = render(<Dice />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Dice {...mockProps} />
+    );
     const button5 = getByRole("button", { name: "5" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "1900" } });
     fireEvent.click(button5);
@@ -227,7 +262,9 @@ describe("Dice Component", () => {
   });
 
   test("displays correct game-result-message when player wins/loses with number 6", () => {
-    const { getByRole, getByTestId, getByText } = render(<Dice />);
+    const { getByRole, getByTestId, getByText } = render(
+      <Dice {...mockProps} />
+    );
     const button6 = getByRole("button", { name: "6" });
     fireEvent.change(getByTestId("Bet-Amount"), { target: { value: "4000" } });
     fireEvent.click(button6);
@@ -240,7 +277,7 @@ describe("Dice Component", () => {
   });
 
   test("displays the number of total played games correctly", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button1 = getByRole("button", { name: "1" });
     const button2 = getByRole("button", { name: "2" });
     const button3 = getByRole("button", { name: "3" });
@@ -264,7 +301,7 @@ describe("Dice Component", () => {
   });
 
   test("displays the number of total won/lost games correctly", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button2 = getByRole("button", { name: "2" });
     fireEvent.click(button2);
     const winCount = getByTestId("Win-Count");
@@ -288,7 +325,7 @@ describe("Dice Component", () => {
   });
 
   test("displays the number of total 1/2/3/4/5/6 correctly", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button5 = getByRole("button", { name: "5" });
     fireEvent.click(button5);
     const count1 = getByTestId("1-Count");
@@ -335,7 +372,7 @@ describe("Dice Component", () => {
   });
 
   test("displays past-dice-results correctly", () => {
-    const { getByRole, getByTestId } = render(<Dice />);
+    const { getByRole, getByTestId } = render(<Dice {...mockProps} />);
     const button6 = getByRole("button", { name: "6" });
     const button1 = getByRole("button", { name: "1" });
     const button3 = getByRole("button", { name: "3" });

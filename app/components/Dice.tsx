@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Dice({
   userEmail,
@@ -9,7 +10,7 @@ export default function Dice({
   userEmail: string;
   userPoints: number;
 }) {
-  const [points, setPoints] = useState<number>(10000);
+  const [points, setPoints] = useState<number>(userPoints);
   const [betAmountInput, setBetAmountInput] = useState<number>(100);
   const [betAmount, setBetAmount] = useState<number>(0);
   const [choice, setChoice] = useState<number>(0);
@@ -17,6 +18,8 @@ export default function Dice({
   const [playCount, setPlayCount] = useState<number>(0);
   const [winCount, setWinCount] = useState<number>(0);
   const [pastDiceResults, setPastDiceResults] = useState<number[]>([]);
+
+  const router = useRouter();
 
   const colorClasses: { [key: number]: string } = {
     1: "red",
@@ -26,19 +29,32 @@ export default function Dice({
     5: "blue",
   };
 
-  const handleChooseNumber = (chosenNumber: number): void => {
+  const handleChooseNumber = async (chosenNumber: number) => {
+    const result: number = Math.floor(Math.random() * 6) + 1;
+    let updatedUserPoints: number;
     setBetAmount(betAmountInput);
     setChoice(chosenNumber);
     setPlayCount((prev) => prev + 1);
-    const result: number = Math.floor(Math.random() * 6) + 1;
-    if (result === chosenNumber) {
-      setPoints((prev) => prev + betAmountInput * 4.9);
-      setWinCount((prev) => prev + 1);
-    } else {
-      setPoints((prev) => prev - betAmountInput);
-    }
     setDiceResult(result);
     setPastDiceResults((prev) => [...prev, result]);
+    if (result === chosenNumber) {
+      updatedUserPoints = points + betAmountInput * 4.9;
+      setWinCount((prev) => prev + 1);
+    } else {
+      updatedUserPoints = points - betAmountInput;
+    }
+    setPoints(updatedUserPoints);
+    await fetch("/api/points/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userEmail: userEmail,
+        updatedUserPoints: updatedUserPoints,
+      }),
+    });
+    router.refresh();
   };
 
   return (

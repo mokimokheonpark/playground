@@ -48,14 +48,15 @@ export default function Coin({
     setPlayCount((prev) => prev + 1);
     if (result === 1) {
       updatedUserPoints = points + betAmountInput * 0.97;
-      setCoinResult("Head");
       setWinCount((prev) => prev + 1);
+      setCoinResult("Head");
       setPastCoinResults((prev) => [...prev, "H"]);
     } else {
       updatedUserPoints = points - betAmountInput;
       setCoinResult("Tail");
       setPastCoinResults((prev) => [...prev, "T"]);
     }
+    setPoints(updatedUserPoints);
     await fetch("/api/points/update", {
       method: "POST",
       headers: {
@@ -66,7 +67,6 @@ export default function Coin({
         updatedUserPoints: updatedUserPoints,
       }),
     });
-    setPoints(updatedUserPoints);
     router.refresh();
   };
 
@@ -78,14 +78,15 @@ export default function Coin({
     setPlayCount((prev) => prev + 1);
     if (result === 2) {
       updatedUserPoints = points + betAmountInput * 0.97;
-      setCoinResult("Tail");
       setWinCount((prev) => prev + 1);
+      setCoinResult("Tail");
       setPastCoinResults((prev) => [...prev, "T"]);
     } else {
       updatedUserPoints = points - betAmountInput;
       setCoinResult("Head");
       setPastCoinResults((prev) => [...prev, "H"]);
     }
+    setPoints(updatedUserPoints);
     await fetch("/api/points/update", {
       method: "POST",
       headers: {
@@ -96,7 +97,6 @@ export default function Coin({
         updatedUserPoints: updatedUserPoints,
       }),
     });
-    setPoints(updatedUserPoints);
     router.refresh();
   };
 
